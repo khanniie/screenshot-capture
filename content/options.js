@@ -2,9 +2,9 @@
 var state = {
   shortcut: {},
   method: [
-    {id: 'view', icon: '⬒', title: 'Capture Viewport'},
+    //{id: 'view', icon: '⬒', title: 'Capture Viewport'},
     // {id: 'full', icon: '⬛', title: 'Capture Document'},
-    {id: 'crop', icon: '◩', title: 'Crop and Save'},
+    //{id: 'crop', icon: '◩', title: 'Crop and Save'},
     {id: 'wait', icon: '◪', title: 'Crop and Wait'}
   ],
   format: [
