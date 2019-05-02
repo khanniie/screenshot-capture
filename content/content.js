@@ -230,28 +230,31 @@ var send = document.createElement('img');
 send.src = chrome.runtime.getURL('/images/send.svg');
 
 send.addEventListener('click', ()=>{
-  
-  alert("printing is not available yet :(");
-  //   var three_canvas = document.getElementById("threecan");
-  //   var bg = document.getElementById("postimage");
-  //
-  //   var new_canvas = document.createElement('CANVAS');
-  //
-  //   var can_wid = 600;
-  //   var can_hei = 400;
-  //
-  //   new_canvas.width = can_wid;
-  //   new_canvas.height = can_hei;
-  //
-  //   var ctx = new_canvas.getContext('2d');
-  //
-  //   ctx.drawImage(bg, 0, 0, 400, 600);
-  //   ctx.drawImage(three_canvas, 0, 0, can_wid, can_hei);
-  //
-  //
-  // var d=new_canvas.toDataURL("image/png");
-  // var w=window.open('about:blank','image from canvas');
-  // w.document.write("<img src='"+d+"' alt='from canvas'/>");
+
+  //alert("printing is not available yet :(");
+    //var three_canvas = document.getElementById("threecan");
+    var bg = document.getElementById("postimage");
+
+    var new_canvas = document.createElement('CANVAS');
+
+    var can_wid = 600;
+    var can_hei = 400;
+
+    new_canvas.width = can_wid;
+    new_canvas.height = can_hei;
+    new_canvas.style.width = can_wid + "px";
+    new_canvas.style.height = can_hei + "px";
+
+    var ctx = new_canvas.getContext('2d');
+
+    ctx.drawImage(bg, 0, 0, 600, 400);
+    //console.log(three_canvas)
+    //ctx.drawImage(three_canvas, 0, 0, can_wid, can_hei);
+
+
+  var d=new_canvas.toDataURL("image/png");
+  var w=window.open('about:blank','image from canvas');
+  w.document.write("<img src='"+d+"' alt='from canvas'/>");
 });
 
 // var sadface = document.createElement('img');
