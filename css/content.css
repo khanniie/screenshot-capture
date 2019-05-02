@@ -1,3 +1,9 @@
+/* @font-face {
+  font-family: 'Dawning';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://fonts.googleapis.com/css?family=Pacifico') format('tff');
+} */
 
 img#fake-image,
 .jcrop-holder,
@@ -16,3 +22,277 @@ img#fake-image {
   position: fixed !important; top: 0 !important; left: 0 !important;
   z-index: 2147483647 !important;
 }
+
+#postcard-overlay{
+  position: fixed;
+  z-index: 210001;
+  box-shadow: 4px 4px 30px 0px 10px rgba(0, 0, 0, 0.3);
+  top: 5%;
+  left: 12.5vw;
+  width: 75vw;
+  height: 50vw;
+  background: #f4f2fe;
+  border-radius: 4px;
+  border: 2px solid #ACB7FD;
+}
+
+#postcard-underlay{
+  position: fixed;
+  z-index: 210000;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  margin: 0px;
+  top: 0px;
+  left: 0px;
+}
+
+#postcard-image-container{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /* box-shadow: 0px 1.2vw 4vw -1vw rgba(0, 0, 0, 0.3); */
+  box-shadow: 0px 2.4em 6em -2em rgba(105, 108, 170, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+#postcard-image-container img{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+#close-button{
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  margin: 0px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: inline;
+  width: 100%;
+  height: 100%;
+}
+
+#postcard-overlay h1{
+    position: absolute;
+    left: 17.5%;
+    width: 65%;
+    text-align: center;
+    top: 3%;
+    font-size: 1.9em;
+    font-weight: 300 !important;
+    color: #ACB7FD;
+    font-family: 'Pacifico', cursive !important;
+}
+
+#card-container {
+	 width: 100%;
+	 height: 100%;
+	 margin: 0;
+	 padding: 0;
+}
+/*  #container {
+	 display: flex;
+	 justify-content: space-around;
+	 align-items: center;
+	 background-image: linear-gradient(to bottom right, #52c234, #061700 120%);
+} */
+
+#options {
+  width: 40px;
+  position: absolute;
+  right: calc(17.5% - 40px);
+  padding-left: 1.65em;
+  padding-right: 1.65em;
+  height: 65%;
+  margin-top: 12%;
+  border-radius: 4px;
+    box-sizing: content-box;
+}
+
+#options img{
+  width: 100%;
+  margin-bottom: 0.5em;
+
+}
+
+#options img:hover{
+  width: 110%;
+  margin-bottom: calc(0.5em - 10%);
+}
+
+ .card {
+   position: absolute;
+   width: 65%;
+   margin-left: calc(17.5% - 40px);
+   margin-top: 12%;
+   height: 65%;
+	 perspective: 100vw;
+	 perspective-origin: 50% 50%;
+	 transform-style: preserve-3d;
+   border-radius: 4px;
+}
+
+ .card .face {
+	 backface-visibility: hidden;
+	 position: absolute;
+	 width: 100%;
+	 height: 100%;
+	 transition: transform 0.35s cubic-bezier(0.13, 1, 0.39, 1), box-shadow 0.35s cubic-bezier(0.13, 1.03, 0.39, 0.98), border-width 0.35s cubic-bezier(0.13, 1.03, 0.39, 0.98);
+   /*transition: transform 0.35s cubic-bezier(0.13, 1, 0.39, 1);*/
+
+}
+ .card .front {
+   width: 100%;
+   height: 100%;
+	 transform: rotateX(0deg);
+}
+ .card .back {
+   width: 100%;
+   height: 100%;
+	 transform: rotateX(180deg);
+   background: #fbf9f5;
+   border: 1px solid rgba(0, 0, 0, 0.15);
+
+}
+
+.address{
+  height: 60%;
+  width: 50%;
+  position: absolute;
+  bottom: 20px;
+  left: calc(50%);
+  clear: both;
+}
+
+
+.address p{
+  position: relative;
+  display: inline;
+  width: 80%;
+  margin-left: 10%;
+  clear: both;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px;
+  line-height: 2em;
+  font-size: 1em;
+  border-bottom: 2px solid black;
+}
+.address input{
+  position: relative;
+  display: inline;
+  width: 80%;
+  margin-left: 10%;
+  clear: both;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px;
+  line-height: 2em;
+  font-size: 1em;
+  border-bottom: 2px solid black;
+}
+ .card:hover .front, .card.hover .front {
+	 transform: rotateX(5deg);
+   box-shadow: 0px 8vw 7vw -5vw rgba(105, 108, 170, 0.3);
+	 /* box-shadow: 0px 10vw 9vw -6vw rgba(0, 0, 0, 0.4);
+	 border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+	 border-top: 1px solid rgba(0, 0, 0, 0.8); */
+}
+
+#greetings{
+  position: absolute;
+  top: 1%;
+  left: 0.5em;
+  font-size: 2.5em;
+  font-weight: 400;
+  font-family: 'Kalam', cursive;
+  -webkit-text-stroke: 1px white;
+  color: #ea2020;
+}
+
+#wish{
+  position: absolute;
+  bottom: 2%;
+  right: 0.5em;
+  font-weight: 400;
+  font-size: 2.5em;
+  -webkit-text-stroke: 1px white;
+  font-family: 'Kalam', cursive;
+  color: #ea2020;
+}
+
+#threejs{
+    position: absolute;
+    top: -23%;
+    width: 100%;
+    height: 100%;
+}
+
+#threejs canvas{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.vert-ruler{
+  position: absolute;
+  width: 2px;
+  height: 90%;
+  top: 5%;
+  background-color: black;
+  left: 50%;
+}
+
+#flip{
+  opacity: 0;
+  color: white;
+  font-size: 1em;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  bottom: -20px;
+  text-align: center;
+  z-index: 2;
+  transform: translate3d(0px, 0px, 100px);
+  transition-duration: 0.5s;
+  font-style: italic;
+}
+
+ .card:hover #flip, .card.hover #flip {
+   opacity: 1;
+}
+
+ .card.flipped .front {
+	 transform: rotateX(180deg);
+}
+ .card.flipped .back {
+	 transform: rotateX(360deg);
+   box-shadow: 4px 4px 30px 0px 10px rgba(0, 0, 0, 0.3);
+}
+ .card.flipped:hover .front, .card.flipped.hover .front {
+	 transform: rotateX(200deg);
+}
+ .card.flipped:hover .back, .card.flipped.hover .back {
+	 transform: rotateX(340deg);
+}
+
+#stamp{
+  position: absolute;
+  width: 5em;
+  transform: rotate(10deg);
+  right: 0.5em;
+  top: 0.5em;
+}
+
+input:focus {outline:none;}

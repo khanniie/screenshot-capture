@@ -23,7 +23,15 @@
 
   "web_accessible_resources": [
     "/images/Jcrop.gif",
-    "/images/pixel.png"
+    "/images/pixel.png",
+    "/images/close.svg",
+    "/images/sadface.svg",
+    "/images/wordart.svg",
+    "/images/stamp.png",
+    "/images/send.svg",
+    "/fonts/*",
+    "/build/*",
+    "/build/threejs/*"
   ],
 
   "commands": {
@@ -45,6 +53,9 @@
 
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "http://*/*", "https://*/*", "*://*/*",
+    "http://fonts.googleapis.com/",
+    "https://fonts.googleapis.com/"
   ]
 }

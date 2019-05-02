@@ -21,12 +21,22 @@ function inject (tab) {
   })
 
   var timeout = setTimeout(() => {
+
+    // let font = new FontFace("Dawning", "url('../fonts/DawningofaNewDay.ttf')");
+    // document.fonts.add(font);
+
     chrome.tabs.insertCSS(tab.id, {file: 'vendor/jquery.Jcrop.min.css', runAt: 'document_start'})
     chrome.tabs.insertCSS(tab.id, {file: 'css/content.css', runAt: 'document_start'})
 
     chrome.tabs.executeScript(tab.id, {file: 'vendor/jquery.min.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'vendor/jquery.Jcrop.min.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'content/content.js', runAt: 'document_start'})
+
+    chrome.tabs.executeScript(tab.id, {file: 'build/threejs/build/three.js', runAt: 'document_start'})
+    chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/GeometryUtils.js', runAt: 'document_start'})
+    chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/WebGL.js', runAt: 'document_start'})
+    chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/SVGLoader.js', runAt: 'document_start'})
+    chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/stats.min.js', runAt: 'document_start'})
 
     setTimeout(() => {
       chrome.tabs.sendMessage(tab.id, {message: 'init'})
@@ -54,46 +64,17 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
 
         chrome.tabs.captureVisibleTab(tab.windowId, {format: config.format}, (image) => {
           // image is base64
-
-          if (config.method === 'view') {
-            if (req.dpr !== 1 && !config.dpr) {
-              crop(image, req.area, req.dpr, config.dpr, config.format, (cropped) => {
-                res({message: 'image', image: cropped})
-              })
-            }
-            else {
-              res({message: 'image', image: image})
-            }
-          }
-          else {
-            crop(image, req.area, req.dpr, config.dpr, config.format, (cropped) => {
-              res({message: 'image', image: cropped})
-            })
-          }
+          crop(image, req.area, req.dpr, config.dpr, config.format, (cropped) => {
+            res({message: 'image', image: cropped})
+          })
         })
       })
     })
   }
   else if (req.message === 'active') {
     if (req.active) {
-      chrome.storage.sync.get((config) => {
-        if (config.method === 'view') {
-          chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Capture Viewport'})
-          chrome.browserAction.setBadgeText({tabId: sender.tab.id, text: '⬒'})
-        }
-        // else if (config.method === 'full') {
-        //   chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Capture Document'})
-        //   chrome.browserAction.setBadgeText({tabId: sender.tab.id, text: '⬛'})
-        // }
-        else if (config.method === 'crop') {
-          chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Crop and Save'})
-          chrome.browserAction.setBadgeText({tabId: sender.tab.id, text: '◩'})
-        }
-        else if (config.method === 'wait') {
           chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Crop and Wait'})
           chrome.browserAction.setBadgeText({tabId: sender.tab.id, text: '◪'})
-        }
-      })
     }
     else {
       chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Screenshot Capture'})
