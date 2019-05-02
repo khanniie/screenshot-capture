@@ -168,6 +168,7 @@ var save = (image, format) => {
   console.log(image)
   var img = document.createElement('img')
   img.src = image;
+  img.id="postimage";
   // var link = document.createElement('a')
   // link.download = filename(format)
   // link.href = image
@@ -227,6 +228,31 @@ overlay.appendChild(close);
 
 var send = document.createElement('img');
 send.src = chrome.runtime.getURL('/images/send.svg');
+
+send.addEventListener('click', ()=>{
+  
+  alert("printing is not available yet :(");
+  //   var three_canvas = document.getElementById("threecan");
+  //   var bg = document.getElementById("postimage");
+  //
+  //   var new_canvas = document.createElement('CANVAS');
+  //
+  //   var can_wid = 600;
+  //   var can_hei = 400;
+  //
+  //   new_canvas.width = can_wid;
+  //   new_canvas.height = can_hei;
+  //
+  //   var ctx = new_canvas.getContext('2d');
+  //
+  //   ctx.drawImage(bg, 0, 0, 400, 600);
+  //   ctx.drawImage(three_canvas, 0, 0, can_wid, can_hei);
+  //
+  //
+  // var d=new_canvas.toDataURL("image/png");
+  // var w=window.open('about:blank','image from canvas');
+  // w.document.write("<img src='"+d+"' alt='from canvas'/>");
+});
 
 // var sadface = document.createElement('img');
 // sadface.src = chrome.runtime.getURL('/images/sadface.svg');
@@ -362,9 +388,16 @@ function three_init() {
     permalink = document.getElementById( "permalink" );
 
     textureLoader = new THREE.TextureLoader();
-    var firstImage = document.getElementsByTagName("img")[12];
-    console.log(firstImage);
-    texture = textureLoader.load( firstImage.src, function(tex){
+    let results = document.getElementsByTagName("img");
+    console.log(results, results.length);
+    var firstImage;
+    if(results.length != 0){
+      firstImage = results[Math.floor(results.length/2)].src;
+    } else {
+      firstImage = chrome.runtime.getURL("/build/threejs/textures/cabbage.png");
+    }
+
+    texture = textureLoader.load( firstImage, function(tex){
         tex.wrapS = THREE.RepeatWrapping;
         tex.wrapT = THREE.RepeatWrapping;
         tex.repeat.set( 0.001, 0.001);
@@ -430,6 +463,7 @@ function afterTextureLoaded(tex){
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
   container.appendChild( renderer.domElement );
+  renderer.domElement.id = "threecan";
   //renderer.setClearColor( 0x000000, 0 ); // the default
 
   // STATS
