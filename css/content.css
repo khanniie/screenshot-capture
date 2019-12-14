@@ -23,14 +23,30 @@ img#fake-image {
   z-index: 2147483647 !important;
 }
 
-#postcard-overlay{
+#postcard-overlay-container{
   position: fixed;
   z-index: 210001;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#postcard-overlay{
+  position: relative;
+  z-index: 210001;
   box-shadow: 4px 4px 30px 0px 10px rgba(0, 0, 0, 0.3);
-  top: 5%;
-  left: 12.5vw;
-  width: 75vw;
-  height: 50vw;
+  /* top: 5%;
+  left: 12.5vw; */
+  width: 80vw;
+  height: 80vh;
+  min-width: 600px;
+  min-height: 400px;
+  max-width: 800px;
+  max-height: 500px;
   background: #f4f2fe;
   border-radius: 4px;
   border: 2px solid #ACB7FD;
@@ -45,9 +61,11 @@ img#fake-image {
   margin: 0px;
   top: 0px;
   left: 0px;
+  display: flex;
+  flex-direction: column;
 }
 
-#postcard-image-container{
+#postcard-overlay #postcard-image-container{
   position: absolute;
   left: 0px;
   top: 0px;
@@ -59,7 +77,7 @@ img#fake-image {
   border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-#postcard-image-container img{
+#postcard-overlay #postcard-image-container img{
   position: absolute;
   left: 0px;
   top: 0px;
@@ -67,7 +85,7 @@ img#fake-image {
   height: 100%;
 }
 
-#close-button{
+#postcard-overlay #close-button{
   position: absolute;
   right: 8px;
   top: 8px;
@@ -76,29 +94,23 @@ img#fake-image {
   height: 20px !important;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-}
-canvas {
+#postcard-overlay canvas {
   display: inline;
   width: 100%;
   height: 100%;
 }
 
 #postcard-overlay h1{
-    position: absolute;
-    left: 17.5%;
-    width: 65%;
     text-align: center;
-    top: 3%;
     font-size: 1.9em;
+    padding-top: 24px;
+    padding-bottom: 24px;
     font-weight: 300 !important;
     color: #ACB7FD;
     font-family: 'Pacifico', cursive !important;
 }
 
-#card-container {
+#postcard-overlay #card-container {
 	 width: 100%;
 	 height: 100%;
 	 margin: 0;
@@ -111,42 +123,44 @@ canvas {
 	 background-image: linear-gradient(to bottom right, #52c234, #061700 120%);
 } */
 
-#options {
+#postcard-overlay #options {
   width: 40px;
-  position: absolute;
-  right: calc(17.5% - 40px);
-  padding-left: 1.65em;
-  padding-right: 1.65em;
-  height: 65%;
-  margin-top: 12%;
-  border-radius: 4px;
-    box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
 
-#options img{
+#postcard-overlay #options img{
   width: 100%;
   margin-bottom: 0.5em;
-
+  transition-duration: 0.1s;
 }
 
-#options img:hover{
+#postcard-overlay #options img:hover{
   width: 110%;
   margin-bottom: calc(0.5em - 10%);
+  margin-left: calc(-5%);
+  cursor: pointer;
 }
 
- .card {
-   position: absolute;
-   width: 65%;
-   margin-left: calc(17.5% - 40px);
-   margin-top: 12%;
-   height: 65%;
+#postcard-overlay .card-and-options{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+  height: 315px;
+}
+
+#postcard-overlay .card {
+   width: 490px;
+   height: 315px;
 	 perspective: 100vw;
 	 perspective-origin: 50% 50%;
 	 transform-style: preserve-3d;
    border-radius: 4px;
 }
 
- .card .face {
+#postcard-overlay .card .face {
 	 backface-visibility: hidden;
 	 position: absolute;
 	 width: 100%;
@@ -155,12 +169,14 @@ canvas {
    /*transition: transform 0.35s cubic-bezier(0.13, 1, 0.39, 1);*/
 
 }
- .card .front {
+
+#postcard-overlay .card .front {
    width: 100%;
    height: 100%;
 	 transform: rotateX(0deg);
 }
- .card .back {
+
+#postcard-overlay .card .back {
    width: 100%;
    height: 100%;
 	 transform: rotateX(180deg);
@@ -169,8 +185,7 @@ canvas {
 
 }
 
-.address{
-  height: 60%;
+#postcard-overlay .address{
   width: 50%;
   position: absolute;
   bottom: 20px;
@@ -179,7 +194,7 @@ canvas {
 }
 
 
-.address p{
+#postcard-overlay .address p{
   position: relative;
   display: inline;
   width: 80%;
@@ -191,7 +206,8 @@ canvas {
   font-size: 1em;
   border-bottom: 2px solid black;
 }
-.address input{
+
+#postcard-overlay .address input{
   position: relative;
   display: inline;
   width: 80%;
@@ -199,11 +215,11 @@ canvas {
   clear: both;
   background-color: rgba(0, 0, 0, 0);
   border: 0px;
-  line-height: 2em;
+  line-height: 25px;
   font-size: 1em;
   border-bottom: 2px solid black;
 }
- .card:hover .front, .card.hover .front {
+#postcard-overlay .card:hover .front, .card.hover .front {
 	 transform: rotateX(5deg);
    box-shadow: 0px 8vw 7vw -5vw rgba(105, 108, 170, 0.3);
 	 /* box-shadow: 0px 10vw 9vw -6vw rgba(0, 0, 0, 0.4);
@@ -211,7 +227,7 @@ canvas {
 	 border-top: 1px solid rgba(0, 0, 0, 0.8); */
 }
 
-#greetings{
+#postcard-overlay #greetings{
   position: absolute;
   top: 1%;
   left: 0.5em;
@@ -222,7 +238,7 @@ canvas {
   color: #ea2020;
 }
 
-#wish{
+#postcard-overlay #wish{
   position: absolute;
   bottom: 2%;
   right: 0.5em;
@@ -233,19 +249,19 @@ canvas {
   color: #ea2020;
 }
 
-#threejs{
+#postcard-overlay #threejs{
     position: absolute;
     top: -23%;
     width: 100%;
     height: 100%;
 }
 
-#threejs canvas{
+#postcard-overlay #threejs canvas{
     width: 100% !important;
     height: 100% !important;
 }
 
-.vert-ruler{
+#postcard-overlay .vert-ruler{
   position: absolute;
   width: 2px;
   height: 90%;
@@ -254,7 +270,7 @@ canvas {
   left: 50%;
 }
 
-#flip{
+#postcard-overlay #flip{
   opacity: 0;
   color: white;
   font-size: 1em;
@@ -269,25 +285,27 @@ canvas {
   font-style: italic;
 }
 
- .card:hover #flip, .card.hover #flip {
+#postcard-overlay .card:hover #flip, .card.hover #flip {
    opacity: 1;
 }
 
- .card.flipped .front {
+#postcard-overlay .card.flipped .front {
 	 transform: rotateX(180deg);
 }
- .card.flipped .back {
+
+#postcard-overlay .card.flipped .back {
 	 transform: rotateX(360deg);
    box-shadow: 4px 4px 30px 0px 10px rgba(0, 0, 0, 0.3);
 }
- .card.flipped:hover .front, .card.flipped.hover .front {
+
+#postcard-overlay .card.flipped:hover .front, .card.flipped.hover .front {
 	 transform: rotateX(200deg);
 }
- .card.flipped:hover .back, .card.flipped.hover .back {
+#postcard-overlay .card.flipped:hover .back, .card.flipped.hover .back {
 	 transform: rotateX(340deg);
 }
 
-#stamp{
+#postcard-overlay #stamp{
   position: absolute;
   width: 5em;
   transform: rotate(10deg);
@@ -295,4 +313,4 @@ canvas {
   top: 0.5em;
 }
 
-input:focus {outline:none;}
+#postcard-overlay input:focus {outline:none;}

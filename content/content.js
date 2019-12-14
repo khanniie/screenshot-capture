@@ -164,51 +164,50 @@ var filename = (format) => {
 
 var save = (image, format) => {
 
-
-  console.log(image)
+  console.log("generating postcard");
   var img = document.createElement('img')
   img.src = image;
   img.id="postimage";
-  // var link = document.createElement('a')
-  // link.download = filename(format)
-  // link.href = image
-  // link.click()
+
+  var overlay_container = document.createElement("div");
   var overlay = document.createElement("div");
   var underlay = document.createElement("div");
   underlay.id = "postcard-underlay"
 
   overlay.id = "postcard-overlay"
+  overlay_container.id = "postcard-overlay-container"
 
 
-  overlay.innerHTML = `<div id="container">
+  overlay.innerHTML = 
+  `
+  <div id="container">
   <h1>Make your Postcard! </h1>
-  <div class="card" id="card">
-    <div class="front face" id="three-contain">
-      <div id="postcard-image-container">
+  <div class="card-and-options">
+      <div class="card" id="card">
+          <div class="front face" id="three-contain">
+              <div id="postcard-image-container"></div>
+          </div>
+          <div class="back face" id="cardback">
+          <div class="messagebox"></div>
+              <div class="vert-ruler"></div>
+              <div class="address">
+              <form >
+                  <input type="text" id="insert-url" />
+                  <input type="text" value="To:" />
+                  <input type="text" />
+                  <input type="text" />
+                  <input type="text" />
+                  <input type="text" />
+              </form>
+              </div>
+          </div>
+          <div id="flip">flip</div>
       </div>
-    </div>
-    <div class="back face" id="cardback">
-    <div class="messagebox"></div>
-      <div class="vert-ruler"></div>
-      <div class="address">
-            <p id="insert-url">From: </p>
-        <form>
-            <input type="text" />
-            <input type="text" />
-            <input type="text" />
-            <input type="text" />
-            <input type="text" />
-        </form>
-      </div>
-    </div>
-    <div id="flip">flip</div>
-  </div>
-
-  <div id="options">
+      <div id="options"></div>
   </div>
 </div>`
-
-document.body.appendChild(overlay)
+overlay_container.appendChild(overlay);
+document.body.appendChild(overlay_container)
 
 document.getElementById("flip").addEventListener("click", function(e){
      document.getElementById("card").classList.toggle("flipped");
@@ -232,7 +231,7 @@ send.src = chrome.runtime.getURL('/images/send.svg');
 send.addEventListener('click', ()=>{
 
   //alert("printing is not available yet :(");
-    //var three_canvas = document.getElementById("threecan");
+    var three_canvas = document.getElementById("threecan");
     var bg = document.getElementById("postimage");
 
     var new_canvas = document.createElement('CANVAS');
@@ -248,14 +247,19 @@ send.addEventListener('click', ()=>{
     var ctx = new_canvas.getContext('2d');
 
     ctx.drawImage(bg, 0, 0, 600, 400);
-    //console.log(three_canvas)
-    //ctx.drawImage(three_canvas, 0, 0, can_wid, can_hei);
+    if(three_canvas) ctx.drawImage(three_canvas, 0, -100, can_wid, can_hei);
 
-
-  var d=new_canvas.toDataURL("image/png");
-  var w=window.open('about:blank','image from canvas');
-  w.document.write("<img src='"+d+"' alt='from canvas'/>");
+    var d=new_canvas.toDataURL("image/png");
+    var w=window.open('about:blank','image from canvas');
+    w.document.write("<img src='"+d+"' alt='from canvas'/>");
+    sendEmail(d);
 });
+
+function sendEmail(data){
+  var socket = io('http://localhost:8080');
+  socket.on('connect', function(){});
+  socket.emit('email', data.toString()); 
+}
 
 // var sadface = document.createElement('img');
 // sadface.src = chrome.runtime.getURL('/images/sadface.svg');
@@ -276,7 +280,7 @@ document.body.appendChild(underlay)
 var headHTML = document.getElementsByTagName('head')[0].innerHTML;
 headHTML += '<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">';
 document.getElementsByTagName('head')[0].innerHTML = headHTML;
-document.getElementById("insert-url").innerHTML = "From: " + window.location.href;
+document.getElementById("insert-url").value = "From: " + window.location.href;
 
   //
   // document.getElementsByTagName('head')[0].appendChild(script);
@@ -360,6 +364,11 @@ function make_three_js(){
   script5.src = chrome.runtime.getURL('/build/threejs/js/stats.min.js');
   document.getElementsByTagName('head')[0].appendChild(script5);
 
+  var script6 = document.createElement('script');
+  script6.type = 'text/javascript';
+  script6.src = chrome.runtime.getURL('/build/socketio/socket.io.js');
+  document.getElementsByTagName('head')[0].appendChild(script6);
+
   let msg = window.location.href;
   msg = msg.substring(msg.indexOf("://") + 3)
   if(msg.indexOf("www.") >= 0){
@@ -393,17 +402,31 @@ function three_init() {
     textureLoader = new THREE.TextureLoader();
     let results = document.getElementsByTagName("img");
     console.log(results, results.length);
+
+    
+
     var firstImage;
+    var firstImageWid;
+    var firstImageHeight;
     if(results.length != 0){
-      firstImage = results[Math.floor(results.length/2)].src;
+      let firstImageElement = Array.from(results).reduce((accum, img) => {
+          let accumArea = accum.width * accum.height;
+          let imgArea = img.width * img.height;
+          return (accumArea < imgArea) ? img : accum;
+      } );
+      firstImageWid = firstImageElement.width;
+      firstImageHeight = firstImageElement.height;
+      firstImage = firstImageElement.src;
+      
     } else {
       firstImage = chrome.runtime.getURL("/build/threejs/textures/cabbage.png");
     }
 
+    console.log(firstImageWid, firstImageHeight, firstImage)
     texture = textureLoader.load( firstImage, function(tex){
         tex.wrapS = THREE.RepeatWrapping;
         tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set( 0.001, 0.001);
+        tex.repeat.set( 0.005, 0.005);
         tex.anisotropy = 1;
     } );
 
@@ -462,7 +485,7 @@ function afterTextureLoaded(tex){
 
   // RENDERER
 
-  renderer = new THREE.WebGLRenderer( { alpha:true} );
+  renderer = new THREE.WebGLRenderer( { alpha:true, preserveDrawingBuffer: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
   container.appendChild( renderer.domElement );

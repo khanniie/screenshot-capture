@@ -22,21 +22,20 @@ function inject (tab) {
 
   var timeout = setTimeout(() => {
 
-    // let font = new FontFace("Dawning", "url('../fonts/DawningofaNewDay.ttf')");
-    // document.fonts.add(font);
-
     chrome.tabs.insertCSS(tab.id, {file: 'vendor/jquery.Jcrop.min.css', runAt: 'document_start'})
     chrome.tabs.insertCSS(tab.id, {file: 'css/content.css', runAt: 'document_start'})
 
     chrome.tabs.executeScript(tab.id, {file: 'vendor/jquery.min.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'vendor/jquery.Jcrop.min.js', runAt: 'document_start'})
-    chrome.tabs.executeScript(tab.id, {file: 'content/content.js', runAt: 'document_start'})
 
     chrome.tabs.executeScript(tab.id, {file: 'build/threejs/build/three.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/GeometryUtils.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/WebGL.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/SVGLoader.js', runAt: 'document_start'})
     chrome.tabs.executeScript(tab.id, {file: 'build/threejs/js/stats.min.js', runAt: 'document_start'})
+    chrome.tabs.executeScript(tab.id, {file: 'build/socketio/socket.io.js', runAt: 'document_start'})
+    chrome.tabs.executeScript(tab.id, {file: 'content/content.js', runAt: 'document_start'})
+
 
     setTimeout(() => {
       chrome.tabs.sendMessage(tab.id, {message: 'init'})
